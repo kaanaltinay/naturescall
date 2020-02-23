@@ -8,27 +8,30 @@ import {
   Text,
   View,
 } from 'react-native'
+import { NavigationEvents } from 'react-navigation';
+import { useState, useEffect } from 'react';
+
 
 export default class App extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = { count: 0 }
   }
 
   onPress = () => {
     this.setState({
-      count: this.state.count+1
+      count: 1
     })
-  }
+  };
 
   render() {
     return (
+        this.state.count === 0 ?
         <View style={styles.container}>
           <TouchableOpacity
               style={styles.button}
               onPress={this.onPress}
           >
-
             <Image source={require('../assets/images/no-bg.png')}  style={styles.img}/>
           </TouchableOpacity >
           <View style={[styles.countContainer]}>
@@ -36,15 +39,17 @@ export default class App extends Component {
               { this.state.count !== 0 ? this.state.count: null}
             </Text>
           </View>
-        </View>
+        </View> :
+        null
     )
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center',
+    alignSelf: 'center',
+    flex: 1,
     flexDirection: "row",
     justifyContent: 'center',
     backgroundColor: '#F5FCFF'
@@ -69,8 +74,8 @@ const styles = StyleSheet.create({
     color: '#FF00FF'
   },
   img: {
-
-
+height:120,
+    width: 120,
   }
 
 })
