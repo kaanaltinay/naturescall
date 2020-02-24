@@ -8,11 +8,9 @@ import {
   Text,
   View,
 } from 'react-native'
-import { NavigationEvents } from 'react-navigation';
-import { useState, useEffect } from 'react';
 
 
-export default class App extends Component {
+export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = { count: 0 }
@@ -45,15 +43,15 @@ export default class App extends Component {
   }
 }
 
+HomeScreen.navigationOptions = {
+  title: 'Home',
+};
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    alignSelf: 'center',
     flex: 1,
-    flexDirection: "row",
     justifyContent: 'center',
-    backgroundColor: '#F5FCFF'
-
+    backgroundColor: '#808996'
   },
   button: {
 

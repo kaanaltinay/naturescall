@@ -5,8 +5,8 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen'
-import LinksScreen from '../screens/LinksScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import TipsScreen from '../screens/TipsScreen';
+import GuidelinesScreen from '../screens/GuidelinesScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -36,43 +36,43 @@ HomeStack.navigationOptions = {
 
 HomeStack.path = '';
 
-const LinksStack = createStackNavigator(
+const TipsStack = createStackNavigator(
   {
-    Links: LinksScreen,
+    TipsScreen: TipsScreen,
   },
   config
 );
 
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
+TipsStack.navigationOptions = {
+  tabBarLabel: 'Tips',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'} />
   ),
 };
 
-LinksStack.path = '';
+TipsStack.path = '';
 
-const SettingsStack = createStackNavigator(
+const GuidelinesStack = createStackNavigator(
   {
-    Settings: SettingsScreen,
+    Guidelines: GuidelinesScreen,
   },
   config
 );
 
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
+GuidelinesStack.navigationOptions = {
+  tabBarLabel: 'Guidelines',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
   ),
 };
 
-SettingsStack.path = '';
+GuidelinesStack.path = '';
 
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
-  LinksStack,
-  SettingsStack,
+  TipsStack,
+  GuidelinesStack,
 });
 
 tabNavigator.path = '';
