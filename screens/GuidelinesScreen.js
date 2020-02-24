@@ -28,24 +28,27 @@ const DATA = [
   },
 ];
 
-function Item({ title, videoSource }) {
+function Item({ title, videoSource, mute, play, handleVolume, handlePlay }) {
   return (
       <View style={styles.item}>
         <View style = {styles.innerContainer}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.desc}>{title}</Text>
         </View>
-
         <View style = {styles.videoContainer}>
+          <TouchableOpacity
+              onPress={handlePlay}
+          >
           <Video
               source = {videoSource}
               rate={1.0}
               volume={1.0}
-              isMuted={false}
+              isMuted={mute}
               resizeMode="contain"
-              shouldPlay
+              shouldPlay={play}
               style={{ width: 150, height: 100 }}
           />
+          </TouchableOpacity>
         </View>
       </View>
   );
@@ -55,23 +58,38 @@ export default class GuidelinesScreen extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { count: 0 }
-
-
+    this.state = {
+      mute: true,
+      shouldPlay: false,
+    }
   }
 
-  onPress() {
-
+  handlePlayAndPause = () => {
+    this.setState((prevState) => ({
+      shouldPlay: !prevState.shouldPlay
+    }));
   }
 
-
+  handleVolume = () => {
+    this.setState(prevState => ({
+      mute: !prevState.mute,
+    }));
+  }
 
   render() {
     return (
           <SafeAreaView style={styles.mainContainer}>
             <FlatList
                 data={DATA}
-                renderItem={({ item, videoSource }) => <Item title={item.title} videoSource={item.videoSource} />}
+                renderItem={({ item, videoSource }) =>
+                    <Item
+                        title={item.title}
+                        videoSource={item.videoSource}
+                        mute={this.state.mute}
+                        play={this.state.shouldPlay}
+                        handleVolume={this.handleVolume}
+                        handlePlay={this.handlePlayAndPause}
+                    />}
                 keyExtractor={item => item.id}
             />
           </SafeAreaView>
