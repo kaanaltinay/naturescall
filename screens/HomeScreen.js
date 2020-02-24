@@ -3,11 +3,10 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
-  ImageBackground,
-  TouchableHighlight,
   Text,
   View,
 } from 'react-native'
+import Colors from "../constants/Colors"
 
 
 export default class HomeScreen extends Component {
@@ -51,25 +50,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#808996'
+    backgroundColor: Colors.bgColor,
   },
   button: {
-
     width: 200,
     height: 200,
     borderRadius: 100,
     borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#2b2727',
+    backgroundColor: Colors.textColor,
 
   },
   countContainer: {
     alignItems: 'center',
     padding: 10
-  },
-  countText: {
-    color: '#FF00FF'
   },
   img: {
 height:120,

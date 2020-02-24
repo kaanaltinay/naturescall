@@ -1,12 +1,8 @@
 import React, { Component } from 'react'
-import { ExpoConfigView } from '@expo/samples';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 
 export default class TipsScreen extends Component {
-  /**
-   * Go ahead and delete ExpoConfigView and replace it with your content;
-   * we just wanted to give you a quick view of your config.
-   */
+
   constructor(props) {
     super(props);
     this.state = { count: 0 }
@@ -15,6 +11,7 @@ export default class TipsScreen extends Component {
   onPress() {
 
   }
+
   render() {
     return (
         <View style={styles.container}>
