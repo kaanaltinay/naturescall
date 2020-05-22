@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {FlatList, ImageBackground,Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Constants from "expo-constants";
 import TextStylePropTypes from "react-native-web/dist/exports/Text/TextStylePropTypes";
 import { Video } from 'expo-av';
@@ -79,6 +79,7 @@ export default class GuidelinesScreen extends Component {
   render() {
     return (
           <SafeAreaView style={styles.mainContainer}>
+            <ImageBackground source={require('../assets/images/bg-image.jpg')}  style={styles.bgimg}>
             <FlatList
                 data={DATA}
                 renderItem={({ item, videoSource }) =>
@@ -92,6 +93,8 @@ export default class GuidelinesScreen extends Component {
                     />}
                 keyExtractor={item => item.id}
             />
+              </ImageBackground>
+
           </SafeAreaView>
     )
   }
@@ -134,4 +137,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: Colors.listSubtitleColor,
   },
+  bgimg: {
+    flex: 2,
+    flexDirection: 'column'
+  }
 });

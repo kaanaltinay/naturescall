@@ -21,17 +21,19 @@ const HomeStack = createStackNavigator(
 );
 
 HomeStack.navigationOptions = {
+  headerStyle:{backgroundColor: '#00FF00'},
   tabBarLabel: 'Home',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
       name={
         Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
+          ? `ios-search${focused ? '' : '-outline'}`
+          : 'md-search'
       }
     />
   ),
+  
 };
 
 HomeStack.path = '';
@@ -45,6 +47,8 @@ const TipsStack = createStackNavigator(
 
 TipsStack.navigationOptions = {
   tabBarLabel: 'Tips',
+  
+  
   tabBarIcon: ({ focused }) => (
     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'} />
   ),
@@ -70,8 +74,8 @@ GuidelinesStack.path = '';
 
 
 const tabNavigator = createBottomTabNavigator({
-  HomeStack,
   TipsStack,
+  HomeStack,
   GuidelinesStack,
 });
 
