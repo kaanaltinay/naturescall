@@ -7,17 +7,22 @@ import {
   Image,
   Text,
   View,
+  ScrollView
 } from 'react-native'
 import Colors from "../constants/Colors"
 import SlidingUpPanel from 'rn-sliding-up-panel';
 import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
+import { Dimensions } from 'react-native';
 
 import * as Permissions from 'expo-permissions';
 import {FontAwesome, Ionicons, MaterialCommunityIcons} from '@expo/vector-icons';
 import { Assets } from 'react-navigation-stack';
 const image = { uri: "https://reactjs.org/logo-og.png" };
+
+const deviceWidth = Dimensions.get('window').width;
+const deviceHeight = Dimensions.get('window').height;
 export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
@@ -83,7 +88,7 @@ export default class HomeScreen extends Component {
     if (this.camera) {
       let photo = await this.camera.takePictureAsync();
       console.log(photo);
-      this.setState({image: photo});
+      this.setState({image: photo.uri});
       
     }
   };
@@ -93,18 +98,52 @@ export default class HomeScreen extends Component {
     return (
       this.state.image !== null ?
       <View style={styles.container}>
-      <SlidingUpPanel 
-        visible
-        showBackdrop={false}
-        ref={c => this._panel = c}>
-        
-        <View style={styles.container}>
-          <Text>Here is the content inside panel</Text>
-          <Button title='Hide' onPress={() => this._panel.hide()} />
+        <View style ={{flexDirection: 'row', marginTop: '5%', marginLeft: '3%', marginRight: '3%' }}>
+          <Text style = {{alignSelf: 'center', fontSize: 20}}> Your result is Maine Coon</Text>
+          <TouchableOpacity
+              style={{
+                alignSelf: 'flex-end',
+                justifyContent: 'flex-end',
+                flex: 1,
+              }}
+              onPress={()=>this.setState({image: null})}>
+            <Ionicons
+                name= 'ios-close-circle-outline'
+                style={{ color: "#000", fontSize: 40, justifyContent: 'flex-end', alignSelf: 'flex-end'}}
+            />
+          </TouchableOpacity>
         </View>
-      </SlidingUpPanel>
+        <View style={styles.containerSlide}>
+          <TouchableOpacity onPress={() => this._panel.show()}>
+            <View style = {{flexDirection: 'column', alignItems: 'center'}}>
+              <Text style = {{fontSize: 20, }}>See Details</Text>
+              <Image source={require('../assets/images/mainecoon.jpg')}  style={styles.chosenPhoto}/>
+            </View>
+          </TouchableOpacity>
+          <SlidingUpPanel ref={c => (this._panel = c)} draggableRange={{top: deviceHeight - 160, bottom:0}}>
+            {dragHandler => (
+                <View style={styles.containerSlide}>
+                  <View style={styles.dragHandler} {...dragHandler}>
+                    {image && <Image source={{ uri: image }} style={styles.dragImage} />}
+                  </View>
+                  <ScrollView>
+                    <Text style = {{fontSize: 25, marginRight: '3%', marginLeft: '3%'}}>
+                      The Maine Coon is the largest domesticated cat breed. It has a distinctive physical appearance and valuable hunting skills. It is one of the oldest natural breeds in North America, specifically native to the US state of Maine,[3] where it is the official state cat.
+
+                      No records of the Maine Coon's exact origins and date of introduction to the United States exist, so several competing hypotheses have been suggested, the most credible suggestion being that it is closely related to the Norwegian Forest cat and the Siberian. The breed was popular in cat shows in the late 19th century, but its existence became threatened when long-haired breeds from overseas were introduced in the early 20th century. The Maine Coon has since made a comeback and is now one of the most popular cat breeds in the United States.
+
+                      The Maine Coon is a large and sociable cat, hence its nickname, "the gentle giant". It is characterized by a prominent ruff along its chest, robust bone structure, rectangular body shape, an uneven two-layered coat with longer guard hairs over a silky satin undercoat, and a long, bushy tail. The breed's colors vary widely, with only lilac and chocolate disallowed for pedigree. Reputed for its intelligence and playful, gentle personality, the Maine Coon is often cited as having "dog-like" characteristics.[4][5] Professionals notice certain health problems recurring in the breed, including feline hypertrophic cardiomyopathy and hip dysplasia, but reputable breeders use modern screening methods to minimize the frequency of these problems.
+                    </Text>
+
+
+
+                  </ScrollView>
+                </View>
+            )}
+          </SlidingUpPanel>
+        </View>
     </View> :
-        (this.state.cameraOpened === false && this.state.image == null) ?
+        (this.state.cameraOpened === false && this.state.image === null) ?
         <View style={styles.container}>
           <ImageBackground source={require('../assets/images/bg-image.jpg')}  style={styles.bgimg}>
             <TouchableOpacity
@@ -169,9 +208,6 @@ export default class HomeScreen extends Component {
             </View>
           </Camera>
         </View>
-
-
-     
     )
   }
 }
@@ -181,10 +217,9 @@ HomeScreen.navigationOptions = {
 };
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
     flex: 1,
     justifyContent: 'center',
-    //backgroundColor: Colors.bgColor,
+    alignItems: 'center'
   },
   button: {
     width: 200,
@@ -194,7 +229,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors.textColor,
-
   },
   countContainer: {
     alignItems: 'center',
@@ -204,13 +238,36 @@ const styles = StyleSheet.create({
     height:120,
     width: 120,
   },
-
+  chosenPhoto: {
+    height: '80%',
+    width: '80%',
+    aspectRatio: 1,
+    backgroundColor: '#FFFF00'
+  },
   bgimg: {
     alignItems: 'center',
     flex: 1,
     justifyContent: 'center',
     height:700,
     width: 500,
-  }
+  },
+  containerSlide: {
+    flex: 1,
+    zIndex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white'
+  },
+  dragHandler: {
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 180,
+  },
+  dragImage: {
+    height:120,
+    width: 120,
+  },
 
-})
+
+});
