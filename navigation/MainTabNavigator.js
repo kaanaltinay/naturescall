@@ -5,8 +5,8 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen'
+import CatalogueScreen from '../screens/CatalogueScreen';
 import TipsScreen from '../screens/TipsScreen';
-import GuidelinesScreen from '../screens/GuidelinesScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -38,15 +38,15 @@ HomeStack.navigationOptions = {
 
 HomeStack.path = '';
 
-const TipsStack = createStackNavigator(
+const CatalogueStack = createStackNavigator(
   {
-    TipsScreen: TipsScreen,
+    CatalogueScreen: CatalogueScreen,
   },
   config
 );
 
-TipsStack.navigationOptions = {
-  tabBarLabel: 'Tips',
+CatalogueStack.navigationOptions = {
+  tabBarLabel: 'Catalogue',
   
   
   tabBarIcon: ({ focused }) => (
@@ -54,29 +54,29 @@ TipsStack.navigationOptions = {
   ),
 };
 
-TipsStack.path = '';
+CatalogueStack.path = '';
 
-const GuidelinesStack = createStackNavigator(
+const TipsStack = createStackNavigator(
   {
-    Guidelines: GuidelinesScreen,
+    Tips: TipsScreen,
   },
   config
 );
 
-GuidelinesStack.navigationOptions = {
-  tabBarLabel: 'Guidelines',
+TipsStack.navigationOptions = {
+  tabBarLabel: 'Tips',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
   ),
 };
 
-GuidelinesStack.path = '';
+TipsStack.path = '';
 
 
 const tabNavigator = createBottomTabNavigator({
-  TipsStack,
+  CatalogueStack,
   HomeStack,
-  GuidelinesStack,
+  TipsStack,
 });
 
 tabNavigator.path = '';
