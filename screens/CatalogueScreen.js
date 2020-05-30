@@ -2,21 +2,48 @@ import React, { Component } from 'react'
 import {Image, StyleSheet, Text, TouchableOpacity, View, FlatList, Button, ScrollView} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 
-const SpecificList = [
-  {
-    name: '1',
-    title: 'How to make a fire',
-    videoSource: require('../assets/videos/fire.mp4'),
-    isPlaying: false
-  },
-];
-
-const GeneralList = [
-  {
+const DATA = [
+    {
     id: '1',
-    title: 'How to make a fire',
-    videoSource: require('../assets/videos/fire.mp4'),
-    isPlaying: false
+    src: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/cute-baby-animals-1558535060.jpg?crop=1.00xw:0.669xh;0,0.158xh&resize=980:*',
+    name: 'Dog',
+    type: 'animal',
+    desc: 'Animal description goes here. Animal description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. ',
+    },
+  {
+    id: '2',
+    src: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/cute-baby-animals-1558535060.jpg?crop=1.00xw:0.669xh;0,0.158xh&resize=980:*',
+    name: 'Cute Dog',
+    type: 'animal',
+    desc: 'Animal description goes here. Animal description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. ',
+  },
+  {
+    id: '3',
+    src: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/cute-baby-animals-1558535060.jpg?crop=1.00xw:0.669xh;0,0.158xh&resize=980:*',
+    name: 'Best Dog',
+    type: 'animal',
+    desc: 'Animal description goes here. Animal description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. ',
+  },
+  {
+    id: '4',
+    src:  'https://gearpatrol.com/wp-content/uploads/2019/01/10-Best-Indoor-Plants-Gear-Patrol-umbrella-750x970.jpg',
+    name: 'House Plant',
+    type: 'plant',
+    desc: 'Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. '
+  },
+  {
+    id: '5',
+    src: 'https://images2.minutemediacdn.com/image/upload/c_fill,g_auto,h_1248,w_2220/f_auto,q_auto,w_1100/v1555286811/shape/mentalfloss/fungprimary.png',
+    name: 'Mushroom',
+    type: 'fungi',
+    desc: 'Fungi description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. '
+  },
+  {
+    id: '6',
+    src: 'https://images2.minutemediacdn.com/image/upload/c_fill,g_auto,h_1248,w_2220/f_auto,q_auto,w_1100/v1555286811/shape/mentalfloss/fungprimary.png',
+    name: 'Good Mushroom',
+    type: 'fungi',
+    desc: 'Fungi description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. '
   },
 ];
 
@@ -33,63 +60,81 @@ export default class CatalogueScreen extends Component {
       animalButtonActive: false,
       plantButtonActive: false,
       mushButtonActive: false
-    }
+    };
   }
 
+
   componentDidMount() {
-    var that = this;
+    this.setFlatlistData();
+  }
+
+  setFlatlistData() {
     var items = [];
-    if(this.state.animalButtonActive) {
-      items = Array.apply(null, Array(60)).map((v, i) => {
-        return {
-          id: i,
-          src: 'http://placehold.it/200x200?text=' + (i + 1),
-          name: 'Plant',
-          desc: 'Plant description goes here'
-        };
-      });
+    for(let i = 0; i < DATA.length; i++){
+      if(this.state.animalButtonActive && this.state.plantButtonActive && this.state.mushButtonActive) { //animal plant fungi
+        items.push(DATA[i]);
+      }
+      else if(this.state.animalButtonActive && this.state.plantButtonActive && !this.state.mushButtonActive) { //animal plant
+        if(DATA[i].type === 'plant' || DATA[i].type === 'animal') {
+          items.push(DATA[i]);
+        }
+      }
+      else if(this.state.animalButtonActive && !this.state.plantButtonActive && this.state.mushButtonActive) { //animal fungi
+        if(DATA[i].type === 'animal' || DATA[i].type === 'fungi') {
+          items.push(DATA[i]);
+        }
+      }
+      else if(!this.state.animalButtonActive && this.state.plantButtonActive && this.state.mushButtonActive) { //plant fungi
+        if(DATA[i].type === 'plant' || DATA[i].type === 'fungi') {
+          items.push(DATA[i]);
+        }
+      }
+      else if(this.state.animalButtonActive && !this.state.plantButtonActive && !this.state.mushButtonActive) { //animal
+        if(DATA[i].type === 'animal') {
+          items.push(DATA[i]);
+        }
+      }
+      else if(!this.state.animalButtonActive && this.state.plantButtonActive && !this.state.mushButtonActive) { //plant
+        if(DATA[i].type === 'plant') {
+          items.push(DATA[i]);
+        }
+      }
+      else if(!this.state.animalButtonActive && !this.state.plantButtonActive && this.state.mushButtonActive) { //fungi
+        if(DATA[i].type === 'fungi') {
+          items.push(DATA[i]);
+        }
+      }
+      else {
+        items.push(DATA[i]);
+      }
     }
-    else if(this.state.plantButtonActive) {
-      items = Array.apply(null, Array(60)).map((v, i) => {
-        return {
-          id: i,
-          src: 'http://placehold.it/200x200?text=' + (i + 2),
-          name: 'Plant',
-          desc: 'Plant description goes here'
-        };
-      });
-    }
-    else {
-      items = Array.apply(null, Array(60)).map((v, i) => {
-        return {
-          id: i,
-          src: 'http://placehold.it/200x200?text=' + (i + 1),
-          name: 'Plant',
-          desc: 'Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. '
-        };
-      });
-    }
-    that.setState({
+    this.setState({
       dataSource: items,
     });
   }
 
   toggleAnimalButton = () => {
-    this.setState((prevState) => ({
-      animalButtonActive: !prevState.animalButtonActive
-    }));
+    this.setState({
+      animalButtonActive: !this.state.animalButtonActive
+    }, () => {
+      this.setFlatlistData();
+    });
   };
 
   togglePlantButton = () => {
-    this.setState((prevState) => ({
-      plantButtonActive: !prevState.plantButtonActive,
-    }));
+    this.setState({
+      plantButtonActive: !this.state.plantButtonActive
+    }, () => {
+      this.setFlatlistData();
+    });
   };
 
   toggleMushButton = () => {
-    this.setState((prevState) => ({
-      mushButtonActive: !prevState.mushButtonActive,
-    }));
+    this.setState({
+      mushButtonActive: !this.state.mushButtonActive
+    }, () => {
+      this.setFlatlistData();
+    });
   };
 
 
@@ -99,19 +144,22 @@ export default class CatalogueScreen extends Component {
           {!this.state.visible ?
               <View style={{flexDirection: 'row', justifyContent: 'space-around', paddingTop: '1%'}}>
                 <Button
+
+                    color={this.state.animalButtonActive? '#927582': '#819273'}
                     onPress={this.toggleAnimalButton}
                     title="Animals"
-                    color={this.state.animalButtonActive? '#927582': '#819273'}
                 />
                 <Button
+
+                    color={this.state.plantButtonActive? '#927582': '#819273'}
                     onPress={this.togglePlantButton}
                     title="Plants"
-                    color={this.state.plantButtonActive? '#927582': '#819273'}
                 />
                 <Button
+
+                    color={this.state.mushButtonActive? '#927582': '#819273'}
                     onPress={this.toggleMushButton}
                     title="Fungi"
-                    color={this.state.mushButtonActive? '#927582': '#819273'}
                 />
               </View>
           :
@@ -136,11 +184,10 @@ export default class CatalogueScreen extends Component {
                       <TouchableOpacity
                           style={{ flex: 1, flexDirection: 'column', margin: '0.5%', backgroundColor: '#927582', borderRadius: 5,  }}
                           onPress={()=> this.setState({visible: true, name: item.name, desc: item.desc, src: item.src})}>
-                        <Image style={styles.imageThumbnail} source={{ uri: item.src }} />
+                        <Image style={styles.chosenPhoto} source={{ uri: item.src}}/>
                         <Text style={{fontSize: 16, alignSelf: 'center'}}> {item.name}</Text>
                       </TouchableOpacity>
                   )}
-                  //Setting the number of column
                   numColumns={3}
                   keyExtractor={(item, index) => index.toString()}
               /> :
@@ -176,5 +223,12 @@ const styles = StyleSheet.create({
     height: 100,
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
+  },
+  chosenPhoto: {
+    height: 120,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    aspectRatio: 1,
+    backgroundColor: '#FFFF00'
   },
 });
