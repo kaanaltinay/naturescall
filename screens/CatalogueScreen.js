@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import {Image, StyleSheet, Text, TouchableOpacity, View, FlatList, Button, ScrollView} from "react-native";
+import {Image, StyleSheet, ImageBackground,Text, TouchableOpacity, View, FlatList, Button, ScrollView} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
+import Colors from "../constants/Colors"
 
 const DATA = [
     {
@@ -141,6 +142,7 @@ export default class CatalogueScreen extends Component {
   render() {
     return (
         <View style={styles.mainContainer}>
+          <ImageBackground source={require('../assets/images/bg-image.jpg')}  style={styles.bgimg}>
           {!this.state.visible ?
               <View style={{flexDirection: 'row', justifyContent: 'space-around', paddingTop: '1%'}}>
                 <Button
@@ -182,10 +184,10 @@ export default class CatalogueScreen extends Component {
                   data={this.state.dataSource}
                   renderItem={({ item }) => (
                       <TouchableOpacity
-                          style={{ flex: 1, flexDirection: 'column', margin: '0.5%', backgroundColor: '#927582', borderRadius: 5,  }}
+                          style={{maxWidth: '33%', minHeight: 150, flex: 1, flexDirection: 'column', margin: '0.5%', backgroundColor:  Colors.textColor, borderRadius: 5,  }}
                           onPress={()=> this.setState({visible: true, name: item.name, desc: item.desc, src: item.src})}>
                         <Image style={styles.chosenPhoto} source={{ uri: item.src}}/>
-                        <Text style={{fontSize: 16, alignSelf: 'center'}}> {item.name}</Text>
+                        <Text style={{fontSize: 16, alignSelf: 'center', color:'#fff', fontWeight: 'bold'}}> {item.name}</Text>
                       </TouchableOpacity>
                   )}
                   numColumns={3}
@@ -204,6 +206,7 @@ export default class CatalogueScreen extends Component {
                 </ScrollView>
               </View>
           }
+          </ImageBackground>
         </View>
     )
   }
@@ -225,10 +228,15 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 5,
   },
   chosenPhoto: {
+    borderRadius:15,
+    marginTop:5,
     height: 120,
     justifyContent: 'center',
     alignSelf: 'center',
     aspectRatio: 1,
     backgroundColor: '#FFFF00'
+  },
+  bgimg: {
+    height:700,
   },
 });
