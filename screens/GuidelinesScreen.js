@@ -3,6 +3,8 @@ import {FlatList, ImageBackground,Image, SafeAreaView, StyleSheet, Text, Touchab
 import { Video } from 'expo-av';
 import Colors from "../constants/Colors"
 
+import SlidingUpPanel from 'rn-sliding-up-panel';
+
 const DATA = [
   {
     id: '1',
@@ -30,32 +32,6 @@ const DATA = [
   },
 ];
 
-function Item({ title, videoSource, mute, play, handleVolume, handlePlay }) {
-  return (
-      <View style={styles.item}>
-        <View style = {styles.innerContainer}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.desc}>{title}</Text>
-        </View>
-        <View style = {styles.videoContainer}>
-          <TouchableOpacity
-              onPress={handlePlay}
-          >
-          <Video
-              source = {videoSource}
-              rate={1.0}
-              volume={1.0}
-              isMuted={mute}
-              resizeMode="contain"
-              shouldPlay={play}
-              style={{ width: 150, height: 100 }}
-          />
-          </TouchableOpacity>
-        </View>
-      </View>
-  );
-}
-
 export default class GuidelinesScreen extends Component {
 
   constructor(props) {
@@ -63,20 +39,17 @@ export default class GuidelinesScreen extends Component {
     this.state = {
       mute: true,
       shouldPlay: false,
+      viewSlideUp: false,
     }
   }
 
   handlePlayAndPause = () => {
-    this.setState((prevState) => ({
-      shouldPlay: !prevState.shouldPlay
-    }));
-  }
+    this.setState({shouldPlay: !this.state.shouldPlay})
+  };
 
   handleVolume = () => {
-    this.setState(prevState => ({
-      mute: !prevState.mute,
-    }));
-  }
+    this.setState({mute: !this.state.mute})
+  };
 
   render() {
     return (
@@ -95,8 +68,7 @@ export default class GuidelinesScreen extends Component {
                     />}
                 keyExtractor={item => item.id}
             />
-              </ImageBackground>
-
+            </ImageBackground>
           </SafeAreaView>
     )
   }
@@ -105,6 +77,36 @@ export default class GuidelinesScreen extends Component {
 GuidelinesScreen.navigationOptions = {
   title: 'Guidelines',
 };
+
+function lala() {
+  console.log("I didn't know what to do here");
+}
+function Item({ title, videoSource, mute, play, handleVolume, handlePlay }) {
+  return (
+      <View style={styles.item}>
+        <TouchableOpacity
+            onPress={lala}
+            style={{flexDirection: 'row', flex: 1}}
+        >
+        <View style = {styles.innerContainer}>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.desc}>{title}</Text>
+        </View>
+        <View style = {styles.videoContainer}>
+            <Video
+                source = {videoSource}
+                rate={1.0}
+                volume={1.0}
+                isMuted={mute}
+                resizeMode="contain"
+                shouldPlay={play}
+                style={{ width: 150, height: 100 }}
+            />
+        </View>
+      </TouchableOpacity>
+      </View>
+  );
+}
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -142,5 +144,11 @@ const styles = StyleSheet.create({
   bgimg: {
     flex: 2,
     flexDirection: 'column'
+  },
+  slideContainer: {
+    flex: 1,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
