@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen'
 import CatalogueScreen from '../screens/CatalogueScreen';
-import TipsScreen from '../screens/TipsScreen';
+import GuidelinesScreen from '../screens/GuidelinesScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -56,27 +56,27 @@ CatalogueStack.navigationOptions = {
 
 CatalogueStack.path = '';
 
-const TipsStack = createStackNavigator(
+const GuidelinesStack = createStackNavigator(
   {
-    Tips: TipsScreen,
+    Guidelines: GuidelinesScreen,
   },
   config
 );
 
-TipsStack.navigationOptions = {
-  tabBarLabel: 'Tips',
+GuidelinesStack.navigationOptions = {
+  tabBarLabel: 'Guidelines',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
   ),
 };
 
-TipsStack.path = '';
+GuidelinesStack.path = '';
 
 
 const tabNavigator = createBottomTabNavigator({
   CatalogueStack,
   HomeStack,
-  TipsStack,
+  GuidelinesStack,
 });
 
 tabNavigator.path = '';

@@ -56,7 +56,7 @@ function Item({ title, videoSource, mute, play, handleVolume, handlePlay }) {
   );
 }
 
-export default class TipsScreen extends Component {
+export default class GuidelinesScreen extends Component {
 
   constructor(props) {
     super(props);
@@ -102,8 +102,8 @@ export default class TipsScreen extends Component {
   }
 }
 
-TipsScreen.navigationOptions = {
-  title: 'Tips',
+GuidelinesScreen.navigationOptions = {
+  title: 'Guidelines',
 };
 
 const styles = StyleSheet.create({
