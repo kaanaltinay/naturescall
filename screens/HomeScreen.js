@@ -19,9 +19,6 @@ import { Dimensions } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import {FontAwesome, Ionicons, MaterialCommunityIcons} from '@expo/vector-icons';
 import { Assets } from 'react-navigation-stack';
-
-
-
 const image = { uri: "https://reactjs.org/logo-og.png" };
 
 const deviceWidth = Dimensions.get('window').width;
@@ -245,8 +242,8 @@ const styles = StyleSheet.create({
     width: 120,
   },
   chosenPhoto: {
-    height: '88%',
-    width: '88%',
+    height: '86%',
+    width: '86%',
     aspectRatio: 1,
     backgroundColor: '#FFFF00',
     borderRadius: 15,
