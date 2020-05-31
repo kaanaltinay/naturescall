@@ -3,6 +3,8 @@ import {Image, StyleSheet, ImageBackground,Text, TouchableOpacity, View, FlatLis
 import {Ionicons} from "@expo/vector-icons";
 import Colors from "../constants/Colors"
 
+
+
 const DATA = [
     {
     id: '1',
@@ -145,21 +147,22 @@ export default class CatalogueScreen extends Component {
           <ImageBackground source={require('../assets/images/bg-image.jpg')}  style={styles.bgimg}>
           {!this.state.visible ?
               <View style={{flexDirection: 'row', justifyContent: 'space-around', paddingTop: '1%'}}>
-                <Button
 
-                    color={this.state.animalButtonActive? '#927582': '#819273'}
+                <Button
+                    style={styles.toggleButton}
+                    color={this.state.animalButtonActive? '#81a2c1': '#082949'}
                     onPress={this.toggleAnimalButton}
                     title="Animals"
                 />
                 <Button
 
-                    color={this.state.plantButtonActive? '#927582': '#819273'}
+                    color={this.state.plantButtonActive? '#81a2c1': '#082949'}
                     onPress={this.togglePlantButton}
                     title="Plants"
                 />
                 <Button
 
-                    color={this.state.mushButtonActive? '#927582': '#819273'}
+                    color={this.state.mushButtonActive? '#81a2c1': '#082949'}
                     onPress={this.toggleMushButton}
                     title="Fungi"
                 />
@@ -173,7 +176,7 @@ export default class CatalogueScreen extends Component {
                   onPress={()=>this.setState({visible: false})}>
                 <Ionicons
                     name= 'ios-close-circle-outline'
-                    style={{ color: "#000", fontSize: 40, justifyContent: 'flex-end', alignSelf: 'flex-end'}}
+                    style={{ color: "#000", fontSize: 40, justifyContent: 'flex-end', alignSelf: 'flex-end', color:'#fff'}}
                 />
               </TouchableOpacity>
 
@@ -184,7 +187,7 @@ export default class CatalogueScreen extends Component {
                   data={this.state.dataSource}
                   renderItem={({ item }) => (
                       <TouchableOpacity
-                          style={{maxWidth: '33%', minHeight: 150, flex: 1, flexDirection: 'column', margin: '0.5%', backgroundColor:  Colors.textColor, borderRadius: 5,  }}
+                          style={{maxWidth: '33%', minHeight: 150, flex: 1, flexDirection: 'column', margin: '0.5%', backgroundColor:  '#082949', borderRadius: 5,  }}
                           onPress={()=> this.setState({visible: true, name: item.name, desc: item.desc, src: item.src})}>
                         <Image style={styles.chosenPhoto} source={{ uri: item.src}}/>
                         <Text style={{fontSize: 16, alignSelf: 'center', color:'#fff', fontWeight: 'bold'}}> {item.name}</Text>
@@ -195,12 +198,12 @@ export default class CatalogueScreen extends Component {
               /> :
 
               <View
-                  style={{ flex: 1, flexDirection: 'column', margin: 1, backgroundColor: 'gray' }}
+                  style={{ flex: 1, flexDirection: 'column', margin: 1, backgroundColor: '#082949', borderTopColor:'#fff' }}
                   onPress={()=> this.setState({visible: false, name: '', desc: '', src: ''})}>
                 <Image style={styles.imageThumbnail} source={{ uri: this.state.src}} />
-                <Text style={{fontSize: 20, alignSelf: 'center'}}> {this.state.name}</Text>
+                <Text style={{fontSize: 30, alignSelf: 'center', color:'#fff', fontWeight:'bold'}}> {this.state.name}</Text>
                 <ScrollView>
-                  <Text style = {{fontSize: 30, marginRight: '3%', marginLeft: '3%'}}>
+                  <Text style = {{fontSize: 22, marginRight: '3%', marginLeft: '3%',color:'#fff'}}>
                     {this.state.desc}
                   </Text>
                 </ScrollView>
@@ -239,4 +242,9 @@ const styles = StyleSheet.create({
   bgimg: {
     height:700,
   },
+  toggleButton:{
+    borderWidth: 4,
+    borderColor: "#20232a",
+  },  
+
 });
