@@ -3,13 +3,23 @@ import {Image, StyleSheet, ImageBackground,Text, TouchableOpacity, View, FlatLis
 import {Ionicons} from "@expo/vector-icons";
 import Colors from "../constants/Colors"
 
+import * as firebase from 'firebase';
+import firebaseConfig from '../FirebaseConfig';
+import 'firebase/firestore';
+
+
+
+
+if(!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 
 
 const DATA = [
     {
     id: '1',
     src: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/cute-baby-animals-1558535060.jpg?crop=1.00xw:0.669xh;0,0.158xh&resize=980:*',
-    name: 'Dog',
+    name: 'Maine Coon',
     type: 'animal',
     desc: 'Animal description goes here. Animal description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. Plant description goes here. ',
     },
@@ -64,12 +74,19 @@ export default class CatalogueScreen extends Component {
       plantButtonActive: false,
       mushButtonActive: false
     };
+
+
   }
 
 
   componentDidMount() {
     this.setFlatlistData();
+    this.writeUserData();
   }
+
+
+
+
 
   setFlatlistData() {
     var items = [];
@@ -139,6 +156,8 @@ export default class CatalogueScreen extends Component {
       this.setFlatlistData();
     });
   };
+
+
 
 
   render() {
