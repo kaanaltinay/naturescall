@@ -16,10 +16,39 @@ import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import { Dimensions } from 'react-native';
 
+
+
 import * as Permissions from 'expo-permissions';
 import {FontAwesome, Ionicons, MaterialCommunityIcons} from '@expo/vector-icons';
 import { Assets } from 'react-navigation-stack';
 const image = { uri: "https://reactjs.org/logo-og.png" };
+
+
+
+/*
+  const data = new FormData();
+        data.append('file', pic);      
+        fetch('http://192.168.56.1:5000/image', {       
+          method: 'POST',       
+          body: data,     
+        }).then((response) => {       
+          response.json().then((body) => {         
+            this.setState({ imageURL: `http://192.168.56.1:5000/image/${body.file}` 
+          });       
+        });     
+      });
+  */ 
+  
+
+/*socket= new WebSocket('ws://192.168.56.1:5000/somesocket');
+socket.onopen= function() {
+    
+    socket.send('hello');
+    
+};
+socket.onmessage= function(s) {
+    alert('got reply '+s); 
+};*/
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -27,6 +56,9 @@ export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      resultInfo:'',
+      resultName:'',
+      resultType:'',
       image: null,
       cameraOpened: false,
       hasPermission: null,
@@ -60,12 +92,36 @@ export default class HomeScreen extends Component {
       });
       if (!result.cancelled) {
         this.setState({ image: result.uri });
+        var pic2 = {
+          uri: result.uri,
+          type: 'image/jpg',
+          name: 'pic2.jpg',
+        };
+        var body = new FormData();
+        body.append('file', pic2);
+        
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'http://192.168.1.22:5000/image');
+    
+    
+        xhr.send(body);
+        
+        xhr.onload = () => {
+          if (xhr.status >= 200 && xhr.status < 400) {
+    
+              //db den resultname Aratıp result infoyu set State
+              this.setState({resultType: xhr.response, resultName: ''})
+    
+          } 
+        };
       }
 
       console.log(result);
     } catch (E) {
       console.log(E);
     }
+
+    
   };
 
   onPress = () => {
@@ -84,15 +140,42 @@ export default class HomeScreen extends Component {
     })
   };
 
+
   takePicture = async () => {
+    
     if (this.camera) {
       let photo = await this.camera.takePictureAsync();
-      console.log(photo);
       this.setState({image: photo.uri});
+      //socket.send(photo);
+      //sendImage(photo);
       
+      var pic = {
+        uri: photo.uri,
+        type: 'image/jpg',
+        name: 'pic.jpg',
+      };
+      var body = new FormData();
+      body.append('file', pic);
       
-    }
-  };
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'http://192.168.1.22:5000/image');
+
+
+      xhr.send(body);
+      
+      xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status < 400) {
+
+            //db den resultname Aratıp result infoyu set State
+            this.setState({resultType: xhr.response, resultName: ''})
+
+        } 
+      };
+  }
+};
+
+
+
 
   render() {
     let { image } = this.state;
@@ -100,7 +183,7 @@ export default class HomeScreen extends Component {
       this.state.image !== null ?
       <View style={styles.container}>
         <View style ={{flexDirection: 'row', marginTop: '5%', marginLeft: '3%', marginRight: '3%' }}>
-          <Text style = {{alignSelf: 'center', fontSize: 20, color:'#fff'}}> Your Result</Text>
+          <Text style = {{alignSelf: 'center', fontSize: 20, color:'#fff'}}> Your Result </Text>
           <TouchableOpacity
               style={{
                 alignSelf: 'flex-end',
@@ -117,8 +200,10 @@ export default class HomeScreen extends Component {
         <View style={styles.containerSlide}>
           <TouchableOpacity onPress={() => this._panel.show()}>
             <View style = {{flexDirection: 'column', alignItems: 'center'}}>
-              <Image source={require('../assets/images/mainecoon.jpg')}  style={styles.chosenPhoto}/>
-              <Text style = {{fontSize: 20, color: '#fff' }}>See Details : Maine Coon</Text>
+              <Image source={{ uri: image }}  style={styles.chosenPhoto}/>
+              <Text style = {{fontSize: 20, color: '#fff'}}> See Details : {this.state.resultName} ({this.state.resultType})</Text>
+              
+              
 
             </View>
           </TouchableOpacity>
@@ -129,7 +214,11 @@ export default class HomeScreen extends Component {
                     {image && <Image source={{ uri: image }} style={styles.dragImage} />}
                   </View>
                   <ScrollView>
-                    <Text style = {{fontSize: 25, marginRight: '3%', marginLeft: '3%', color : '#fff'}}>
+                    <Text style = {{fontSize: 25, color: '#fff' , marginLeft: '2%'}}>{this.state.resultName} ({this.state.resultType})</Text>
+                    <Text style = {{fontSize: 21, marginRight: '3%', marginLeft: '3%', color : '#fff'}}>
+
+                    
+
                       The Maine Coon is the largest domesticated cat breed. It has a distinctive physical appearance and valuable hunting skills. It is one of the oldest natural breeds in North America, specifically native to the US state of Maine,[3] where it is the official state cat.
 
                       No records of the Maine Coon's exact origins and date of introduction to the United States exist, so several competing hypotheses have been suggested, the most credible suggestion being that it is closely related to the Norwegian Forest cat and the Siberian. The breed was popular in cat shows in the late 19th century, but its existence became threatened when long-haired breeds from overseas were introduced in the early 20th century. The Maine Coon has since made a comeback and is now one of the most popular cat breeds in the United States.
