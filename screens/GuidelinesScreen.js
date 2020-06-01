@@ -98,10 +98,9 @@ function Item({ title, videoSource, mute, play, handleVolume, handlePlay }) {
                 rate={1.0}
                 volume={1.0}
                 isMuted={mute}
-                resizeMode="cover"
+                resizeMode="contain"
                 shouldPlay={play}
                 style={{ width: 150, height: 100 }}
-                inFullscreen={true}
             />
         </View>
       </TouchableOpacity>

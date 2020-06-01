@@ -2,8 +2,9 @@
   "devToolsPort": 19002,
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 15144,
-  "expoServerNgrokUrl": "https://mb-uyw.anonymous.naturescall.exp.direct",
-  "packagerNgrokUrl": "https://packager.mb-uyw.anonymous.naturescall.exp.direct",
-  "ngrokPid": 3732
+  "packagerPid": 23551,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
+  "webpackServerPort": null
 }
