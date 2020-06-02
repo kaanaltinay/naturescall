@@ -114,11 +114,10 @@ export default class CatalogueScreen extends Component {
     this.setFlatlistData();
   }
   fetchData = async()=>{
-    const response = await fetch('http://192.168.1.25:4545/Animals');
+    const response = await fetch('http://192.168.1.22:4545/Animals');
     const animals = await response.json();
     let ID;
     for (ID in animals){
-      console.log(animals[ID].name);
      
       var temp = {
         "ID": animals[ID].ID,

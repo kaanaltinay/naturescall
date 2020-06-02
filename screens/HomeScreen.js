@@ -23,7 +23,9 @@ import {FontAwesome, Ionicons, MaterialCommunityIcons} from '@expo/vector-icons'
 import { Assets } from 'react-navigation-stack';
 const image = { uri: "https://reactjs.org/logo-og.png" };
 
-
+const DATA = [
+ 
+];
 
 /*
   const data = new FormData();
@@ -70,6 +72,7 @@ export default class HomeScreen extends Component {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasPermission: status === 'granted' });
     this.getPermissionAsync();
+    this.fetchData();
   }
  
 
@@ -105,18 +108,29 @@ export default class HomeScreen extends Component {
     
     
         xhr.send(body);
+   
         
         xhr.onload = () => {
           if (xhr.status >= 200 && xhr.status < 400) {
-    
               //db den resultname Aratıp result infoyu set State
-              this.setState({resultType: xhr.response, resultName: ''})
-    
-          } 
-        };
+              this.setState({resultType: xhr.response, resultName:''})
+                      //this.fetchData();
+            
+              let  ID;
+              for(ID in  DATA){
+                console.log("data type " + DATA[ID].name + " Result  " + this.state.resultType);
+
+
+
+                  if(DATA[ID].name === this.state.resultType){
+                    this.setState({resultInfo: DATA[ID].desc})
+                  }
+                }
+              } 
+            };
       }
 
-      console.log(result);
+    
     } catch (E) {
       console.log(E);
     }
@@ -167,12 +181,50 @@ export default class HomeScreen extends Component {
         if (xhr.status >= 200 && xhr.status < 400) {
 
             //db den resultname Aratıp result infoyu set State
-            this.setState({resultType: xhr.response, resultName: ''})
+            this.setState({resultType: xhr.response, resultName:''})
+            let  ID;
+            for(ID in  DATA){
+              console.log("data type " + DATA[ID].name + " Result  " + this.state.resultType);
+      
+      
+      
+                if(DATA[ID].name === this.state.resultType){
+                  this.setState({resultInfo: DATA[ID].desc})
+                }
+              }
 
         } 
       };
+
+
   }
 };
+
+print = async() => {
+
+};
+
+
+
+fetchData = async()=>{
+  const response = await fetch('http://192.168.1.22:4545/Animals');
+  const animals = await response.json();
+  let ID;
+  for (ID in animals){
+
+ 
+    var temp = {
+      "ID": animals[ID].ID,
+      "type": animals[ID].type,
+      "name": animals[ID].name,
+      "src": animals[ID].imageUrl,
+      "desc": animals[ID].info,
+    };
+    DATA.push(temp);
+
+  }
+  console.log("fetch data lengthh" + DATA.length);
+}
 
 
 
@@ -215,16 +267,12 @@ export default class HomeScreen extends Component {
                   </View>
                   <ScrollView>
                     <Text style = {{fontSize: 25, color: '#fff' , marginLeft: '2%'}}>{this.state.resultName} ({this.state.resultType})</Text>
-                    <Text style = {{fontSize: 21, marginRight: '3%', marginLeft: '3%', color : '#fff'}}>
+                    
 
                     
 
-                      The Maine Coon is the largest domesticated cat breed. It has a distinctive physical appearance and valuable hunting skills. It is one of the oldest natural breeds in North America, specifically native to the US state of Maine,[3] where it is the official state cat.
-
-                      No records of the Maine Coon's exact origins and date of introduction to the United States exist, so several competing hypotheses have been suggested, the most credible suggestion being that it is closely related to the Norwegian Forest cat and the Siberian. The breed was popular in cat shows in the late 19th century, but its existence became threatened when long-haired breeds from overseas were introduced in the early 20th century. The Maine Coon has since made a comeback and is now one of the most popular cat breeds in the United States.
-
-                      The Maine Coon is a large and sociable cat, hence its nickname, "the gentle giant". It is characterized by a prominent ruff along its chest, robust bone structure, rectangular body shape, an uneven two-layered coat with longer guard hairs over a silky satin undercoat, and a long, bushy tail. The breed's colors vary widely, with only lilac and chocolate disallowed for pedigree. Reputed for its intelligence and playful, gentle personality, the Maine Coon is often cited as having "dog-like" characteristics.[4][5] Professionals notice certain health problems recurring in the breed, including feline hypertrophic cardiomyopathy and hip dysplasia, but reputable breeders use modern screening methods to minimize the frequency of these problems.
-                    </Text>
+  
+                    <Text style = {{fontSize: 25, color: '#fff' , marginLeft: '2%'}}>{this.state.resultInfo} </Text>
 
 
 

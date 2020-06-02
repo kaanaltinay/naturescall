@@ -24,12 +24,7 @@ const DATA = [
     videoSource: require('../assets/videos/roast.mp4'),
     isPlaying: false
   },
-  {
-    id: '4',
-    title: 'Roasting Marshmallows',
-    videoSource: require('../assets/videos/roast.mp4'),
-    isPlaying: false
-  },
+
 ];
 
 export default class GuidelinesScreen extends Component {
